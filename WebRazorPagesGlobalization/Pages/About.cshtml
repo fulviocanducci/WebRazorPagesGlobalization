@@ -1,9 +1,20 @@
 ﻿@page
-@model AboutModel
+@using System.Globalization;
+@using Microsoft.AspNetCore.Mvc.Localization
+@model WebRazorPagesGlobalization.Pages.AboutModel
 @{
-    ViewData["Title"] = "About";
-}
-<h2>@ViewData["Title"]</h2>
-<h3>@Model.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+}
+
+@inject IHtmlLocalizer<AboutModel> HtmlLocalizer
+
+
+<h2>@ViewData["Title"]</h2>
+
+<h3>@HtmlLocalizer.GetString("Title")</h3>
+<h3>@HtmlLocalizer.GetString("Status")</h3>
+
+@System.Globalization.CultureInfo.CurrentCulture.Name
+
+
+
