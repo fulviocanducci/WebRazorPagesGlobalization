@@ -1,0 +1,19 @@
+﻿
+@{
+    //ViewData["Title"] = "About";
+}
+
+<h2>@ViewData["About"]</h2>
+
+<br /><br />
+
+<p>
+    @System.Globalization.CultureInfo.CurrentCulture.Name
+</p>
+<p>
+    @System.Globalization.CultureInfo.CurrentCulture.DisplayName
+</p>
+<p>
+    @DateTime.Now.ToLongDateString()
+</p>
+

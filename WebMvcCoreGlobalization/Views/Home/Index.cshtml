@@ -1,42 +1,36 @@
-﻿@page
-@model IndexModel
-@using Microsoft.AspNetCore.Mvc.Localization
-@inject IHtmlLocalizer<IndexModel> HtmlLocalizer
-@inject IViewLocalizer VL
-<br />
-<p>
-    @ViewData["Title"]
+﻿<p>
+    <h1>@ViewData["Title"]</h1>
 </p>
+<br />
+
 <div class="row">
     <div class="col-lg-2">
-        <form asp-page="Index" asp-page-handler="Language" method="post">
+        <form asp-controller="Home" method="post" asp-action="OnPostLanguage">
             <input type="hidden" name="culture" id="culture" value="en-US" />
             <button>Idioma Americano</button>
         </form>
     </div>
     <div class="col-lg-2">
-        <form asp-page="Index" asp-page-handler="Language" method="post">
+        <form asp-controller="Home" method="post" asp-action="OnPostLanguage">
             <input type="hidden" name="culture" id="culture" value="pt-BR" />
             <button>Idioma Brasil</button>
         </form>
     </div>
     <div class="col-lg-2">
-        <form asp-page="Index" asp-page-handler="Language" method="post">
+        <form asp-controller="Home" method="post" asp-action="OnPostLanguage">
             <input type="hidden" name="culture" id="culture" value="fr-FR" />
             <button>Idioma Frances</button>
         </form>
     </div>
 </div>
 
-<h3>@HtmlLocalizer.GetString("Frase")</h3>
-<h3>@HtmlLocalizer.GetString("Estudo")</h3>
-
-
-
+<br /><br />
 <p>
     @System.Globalization.CultureInfo.CurrentCulture.Name
 </p>
-
-<p> 
-    @DateTime.Now.ToLongDateString() 
+<p>
+    @System.Globalization.CultureInfo.CurrentCulture.DisplayName
+</p>
+<p>
+    @DateTime.Now.ToLongDateString()
 </p>

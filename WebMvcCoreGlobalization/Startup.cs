@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -11,10 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WebRazorPagesGlobalization.Models;
-using WebRazorPagesGlobalization.Pages;
 
-namespace WebRazorPagesGlobalization
+namespace WebMvcCoreGlobalization
 {
     public class Startup
     {
@@ -24,31 +22,30 @@ namespace WebRazorPagesGlobalization
         }
 
         public IConfiguration Configuration { get; }
-                
+
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IServiceLocalizerIndexModel, ServiceLocalizerIndexModel>();
-
             services.Configure<CookiePolicyOptions>(options =>
-            {                
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => false;
-                options.MinimumSameSitePolicy = SameSiteMode.None;                                
+                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-
-            services.AddRouting(x =>
+            services.AddRouting(x => 
             {
-                x.LowercaseUrls = true;
+                x.LowercaseUrls = true;                
             });
-
             services.AddMvc()
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization()
                 .AddMvcLocalization()                
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
-                
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -57,14 +54,13 @@ namespace WebRazorPagesGlobalization
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Home/Error");
             }
 
             app.UseStaticFiles();
-            app.UseCookiePolicy();            
             #region Localization
             var supportedCultures = new[]
-            {                
+            {
                 new CultureInfo("en-US"),
                 new CultureInfo("en"),
                 new CultureInfo("pt-BR"),
@@ -78,9 +74,17 @@ namespace WebRazorPagesGlobalization
                 SupportedUICultures = supportedCultures,
             };
             requestLocalizationOptions.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
-            app.UseRequestLocalization(requestLocalizationOptions);            
+            requestLocalizationOptions.RequestCultureProviders.Insert(1, new QueryStringRequestCultureProvider());
+            app.UseRequestLocalization(requestLocalizationOptions);
             #endregion
-            app.UseMvc();
+            app.UseCookiePolicy();
+            
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");                
+            });
         }
     }
 }

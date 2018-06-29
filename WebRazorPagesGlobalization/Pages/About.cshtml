@@ -1,11 +1,6 @@
 ﻿@page
-@using System.Globalization;
 @using Microsoft.AspNetCore.Mvc.Localization
 @model WebRazorPagesGlobalization.Pages.AboutModel
-@{
-
-}
-
 @inject IHtmlLocalizer<AboutModel> HtmlLocalizer
 
 
@@ -14,7 +9,12 @@
 <h3>@HtmlLocalizer.GetString("Title")</h3>
 <h3>@HtmlLocalizer.GetString("Status")</h3>
 
-@System.Globalization.CultureInfo.CurrentCulture.Name
+<p>
+    @System.Globalization.CultureInfo.CurrentCulture.Name
+</p>
+<p>
+    @DateTime.Now.ToLongDateString()
+</p>
 
 
 
